@@ -47,6 +47,22 @@
             background: #0056b3;
         }
 
+        a {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        a:hover {
+            background: #218838;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -54,11 +70,12 @@
     </style>
 </head>
 <body>
-    <h1>Введіть ваше нікнейм (причина переказу)</h1>
+    <h1>Введіть ваше нікнейм</h1>
     <input type="text" id="nickname" placeholder="Ваш нікнейм"><br><br>
-    <h1>Введіть суму донату в гривнях (кількість переказу)</h1>
+    <h1>Введіть суму донату в гривнях</h1>
     <input type="number" id="donation" placeholder="Сума донату"><br><br>
     <button onclick="sendDonation()">Надіслати</button>
+    <a id="privat24Link" target="_blank">Перейти до Приват24</a>
 
     <script>
         function sendDonation() {
@@ -73,7 +90,7 @@
             const webhookUrl = 'https://discord.com/api/webhooks/1266675559241482312/2Sf4LezLS31csg0DvKf82IiEOosuKRjM0tsfzEKgwnFGLhEw02dIzfLztEh_B-urm_C8';
 
             const payload = {
-                content: `Гравцю (${nickname}) потрібно переказати донат за (${donation}) гривень.`
+                content: `Гравцю ${nickname} потрібно переказати донат за ${donation} гривень.`
             };
 
             fetch(webhookUrl, {
@@ -86,7 +103,9 @@
             .then(response => {
                 if (response.ok) {
                     alert('Повідомлення надіслано успішно!');
-                    window.location.href = `privat24://pay?cardNumber=4444111122223333&amount=${donation}&comment=${nickname}`;
+                    const privat24Link = document.getElementById('privat24Link');
+                    privat24Link.href = `https://next.privat24.ua/money-transfer/card?paymentDetails=${nickname}&amount=${donation}&cardNumber=4444111122223333`;
+                    privat24Link.style.display = 'inline-block';
                 } else {
                     alert('Сталася помилка при надсиланні повідомлення.');
                 }
