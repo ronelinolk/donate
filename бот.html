@@ -63,6 +63,17 @@
             background: #218838;
         }
 
+        .payment-info {
+            display: none;
+            margin-top: 20px;
+            color: #333;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .payment-info b {
+            font-weight: bold;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -70,12 +81,14 @@
     </style>
 </head>
 <body>
-    <h1>Введіть ваше нікнейм</h1>
+    <h1>Введіть ваше нікнейм (причина переказу)</h1>
     <input type="text" id="nickname" placeholder="Ваш нікнейм"><br><br>
-    <h1>Введіть суму донату в гривнях</h1>
+    <h1>Введіть суму донату в гривнях (кількість переказу)</h1>
     <input type="number" id="donation" placeholder="Сума донату"><br><br>
     <button onclick="sendDonation()">Надіслати</button>
-    <a id="privat24Link" target="_blank">Перейти до Приват24</a>
+    <div class="payment-info" id="paymentInfo">
+        Натисніть кнопку <a id="privat24Link" target="_blank">Перейти до Приват24</a> та оплатіть донат за номером карти: <b>5168 7520 2435 1770</b>
+    </div>
 
     <script>
         function sendDonation() {
@@ -104,8 +117,11 @@
                 if (response.ok) {
                     alert('Повідомлення надіслано успішно!');
                     const privat24Link = document.getElementById('privat24Link');
-                    privat24Link.href = `https://next.privat24.ua/money-transfer/card?paymentDetails=${nickname}&amount=${donation}&cardNumber=4444111122223333`;
+                    privat24Link.href = `https://next.privat24.ua/money-transfer/card?paymentDetails=${nickname}&amount=${donation}&cardNumber=5168752024351770`;
                     privat24Link.style.display = 'inline-block';
+                    
+                    const paymentInfo = document.getElementById('paymentInfo');
+                    paymentInfo.style.display = 'block';
                 } else {
                     alert('Сталася помилка при надсиланні повідомлення.');
                 }
